@@ -1,9 +1,7 @@
 #!/usr/bin/env python2
 
-
-'''15fbee0 '''
 # ======================== Edit checkpoint and process_no==================
-checkpoint = '995'  # first three chars to start from
+checkpoint = '000'  # first three chars to start from
 process_no = 16
 # ========================================================================
 
@@ -16,7 +14,6 @@ from argparse import ArgumentParser
 from pysqlcipher import dbapi2 as sqlite
 
 from hashlib import md5
-
 
 
 TOTAL_KEY_LENGTH = 7

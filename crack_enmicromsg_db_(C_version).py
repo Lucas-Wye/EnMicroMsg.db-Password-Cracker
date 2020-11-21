@@ -6,14 +6,24 @@
 
 # 3. modify following parameters in this file and then run.
 
-db_file_name = 'EnMicroMsg.db'
-pass_file_name = 'pass.txt'
-process_no = 4
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--db', help='the path of EnMicroMsg.db', default='EnMicroMsg.db')
+parser.add_argument('--passwd', help='the path of output file `pass.txt`', default='pass.txt')
+parser.add_argument('--num_of_process', help='the num of process used', default=4)
+parser.add_argument('--pass_start', help='the start of password', default=0x0000000)
+parser.add_argument('--pass_end', help='the end of password', default=0xfffffff)
+parser.add_argument('--pass_truck_size', help='the truck size of password', default=4000)
+parser.add_argument('--bin_path', help='the path of password_cracker.o', default='bin/password_cracker.o')
+args = parser.parse_args()
 
-pass_start = 0x0000000
-pass_end =   0xfffffff
-pass_truck_size = 4000
+db_file_name = args.db
+pass_file_name = args.passwd
+process_no = args.num_of_process
 
+pass_start = args.pass_start
+pass_end =   args.pass_end
+pass_truck_size = args.pass_truck_size
 
 # ====================================
 
@@ -23,7 +33,7 @@ import time, os
 import Queue, subprocess
 
 pass_seg = Queue.Queue()
-bin_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'password_cracker.o')
+bin_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), args.bin_path)
 
 class workerThread(threading.Thread):
     def __init__(self, threadID, name, pass_seg_):
@@ -37,8 +47,6 @@ class workerThread(threading.Thread):
         while not pass_seg.empty():
             sn_start, sn_end = self.pass_seg.get()
             if sn_start is None:
-                break
-            if os.path.exists(pass_file_name):
                 break
             print(subprocess.check_output([bin_path, db_file_name,
                                            pass_file_name,
@@ -59,7 +67,7 @@ while pass_start<= pass_end:
 
 thread_pool =[]
 for i in range(process_no):
-    thread_pool.append( workerThread(i, 'Worker %d' % i, pass_seg))
+    thread_pool.append(workerThread(i, 'Worker %d' % i, pass_seg))
 
 [x.start() for x  in thread_pool]
 

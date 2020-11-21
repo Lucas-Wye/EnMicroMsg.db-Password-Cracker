@@ -28,9 +28,6 @@ It takes about 5 ms to do a single PBKDF2 with 4000 iterations. So in the worst 
 
 ### How to use?:
 
-Before cracking, please use [extract_key_from_cfg_files.py](#extract_key_from_cfg_files) to get the key if systemInfo.cfg and 
-CompatibleInfo.cfg are available.
-
 There are two versions to choose: a C version and a Python one. The former should be a bit faster (the core relies on openssl. No difference in calculating the 4000 iterations).
 
 #### C version:
@@ -61,16 +58,9 @@ Use the wonderful [wechat-dump](https://github.com/ppwwyyxx/wechat-dump) written
 
 ### Scripts in tools folder
 
-+ [decrypt_db_with_password.py](https://github.com/chg-hou/EnMicroMsg.db-Password-Cracker/blob/master/tools/decrypt_db_with_password.py): when you have already known the password, use this script to get an decrypted database which can be viewed/edited by [DB Browser for SQLite](http://sqlitebrowser.org/).
++ [decrypt_db_with_password.py](./tools/decrypt_db_with_password.py): when you have already known the password, use this script to get an decrypted database which can be viewed/edited by [DB Browser for SQLite](http://sqlitebrowser.org/).
 
-+ [encrypt_db_again.py](https://github.com/chg-hou/EnMicroMsg.db-Password-Cracker/blob/master/tools/encrypt_db_again.py): encrypting the db again. Note: (2018 Feb 04) not tested whether WeChat can open it correctly. 
-
-+ [extract_key_from_cfg_files.py](https://github.com/chg-hou/EnMicroMsg.db-Password-Cracker/blob/master/tools/extract_key_from_cfg_files.py) <a name="extract_key_from_cfg_files"></a>: this script can extract key from **CompatibleInfo.cfg** and **systemInfo.cfg**. Please note that it is written in **Python 3**. Change the search_path first and then run the script with 
-```
-    $ python3 extract_key_from_cfg_files.py
-```
-
-+ [GetDBKey.class](https://github.com/chg-hou/EnMicroMsg.db-Password-Cracker/blob/master/tools/GetDBKey.class): a java code can do the same work as extract_key_from_cfg_files.py. Copy from [https://bbs.pediy.com/thread-250714.htm](https://bbs.pediy.com/thread-250714.htm).
++ [encrypt_db_again.py](./tools/encrypt_db_again.py): encrypting the db again. Note: (2018 Feb 04) not tested whether WeChat can open it correctly.
 
 
 ### Acknowledge

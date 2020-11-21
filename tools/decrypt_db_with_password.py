@@ -1,17 +1,28 @@
 #!/usr/bin/env python2
 
 from pysqlcipher import dbapi2 as sqlite
+import argparse
+import hashlib
 
-db = 'EnMicroMsg.db'
-# db = 'output_encrypted_db.db'
-output = 'output_db.db'
+parser = argparse.ArgumentParser()
+parser.add_argument('--db', help='the path of EnMicroMsg.db', default='EnMicroMsg.db')
+parser.add_argument('--output', help='the path of output db file', default='output_db.db')
+parser.add_argument('--imei', help='imei', default='100003000945586')
+parser.add_argument('--uin', help='uin', default='1234567890')
+parser.add_argument('--key', help='key')
+args = parser.parse_args()
 
-key = '0123456'
+def get_key():
+    IMEI=args.imei
+    uin=args.uin
+    key = hashlib.md5((IMEI+uin).encode()).hexdigest()[:7]
+    return key
 
-print "Please change the 'key', 'db', and 'output' first!"
-print "key='"+key+"'"
+key = args.key if args.key else get_key()
+print('pass: ', key)
 
-
+db = args.db
+output = args.output
 try:
     conn = sqlite.connect(db)
     c = conn.cursor()
@@ -28,9 +39,6 @@ try:
     print "Decrypt and dump database to {} ... ".format(output)
     print key
     print('OK!!!!!!!!!')
-    # with open('CRACKED_PASS.txt', 'a') as f:
-    #     f.write(key)
-    #     f.write('\n')
 except Exception as e:
     print(str(e))
 finally:

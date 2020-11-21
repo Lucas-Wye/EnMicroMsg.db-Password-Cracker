@@ -2,15 +2,19 @@
 
 
 from pysqlcipher import dbapi2 as sqlite
+import argparse
 
-db = 'output_db.db'
-output = 'output_encrypted_db.db'
+parser = argparse.ArgumentParser()
+parser.add_argument('--db', help='the path of output_db.db', default='output_db.db')
+parser.add_argument('--output', help='the path of output encrypted db file', default='output_encrypted_db.db')
+parser.add_argument('--key', help='the key of EnMicroMsg.db', default='0123456')
+args = parser.parse_args()
 
-key = '0123456'
 
-print "Please change the 'key', 'db', and 'output' first!"
+db = args.db
+output = args.output
+key = args.key
 print "key='"+key+"'"
-
 
 try:
     conn = sqlite.connect(db)
@@ -34,11 +38,7 @@ try:
     print "Decrypt and dump database to {} ... ".format(output)
     print key
     print('OK!!!!!!!!!')
-    # with open('CRACKED_PASS.txt', 'a') as f:
-    #     f.write(key)
-    #     f.write('\n')
 except Exception as e:
     print(str(e))
-    # pass
 finally:
     conn.close()
