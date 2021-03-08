@@ -2,3 +2,4 @@
 *.db
 pass.txt
 tmp
+__pycache__
